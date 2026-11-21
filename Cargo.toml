@@ -13,9 +13,9 @@ egui-svg = { path = "egui-svg" }
 egui-svg-fonts = { path = "egui-svg-fonts" }
 app-native = { path = "app-native" }
 
-egui = { version = "0.31.1", default-features = false }
-eframe = { version = "0.31.1", default-features = false, features = ["glow"] }
-egui_demo_lib = { version = "0.31.1", default-features = false }
+egui = { version = "0.36", default-features = false }
+eframe = { version = "0.36.1", default-features = false, features = ["glow"] }
+egui_demo_lib = { version = "0.36.1", default-features = false }
 
 [workspace.lints]
 rust = { unsafe_code = "forbid", missing_docs = "warn" }
