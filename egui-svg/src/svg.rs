@@ -1,6 +1,6 @@
 use crate::EguiSvg;
 use egui::epaint::{ClippedShape, ColorMode, PathStroke};
-use egui::{Color32, FontFamily, Shape, Stroke};
+use egui::{Color32, FontFamily, Shape, Stroke, Vec2};
 use std::collections::HashMap;
 
 /// HashMap of svg element keys.
@@ -115,11 +115,18 @@ fn shapes_to_svg(shapes: Vec<Shape>, attrs: &mut Attributes, svg: &mut String) {
             Shape::Text(text) => {
                 // currently no section support and only static row heights
                 let first_section = &text.galley.job.sections[0];
+                let angle_radians = text.angle;
+                let angle_degrees = angle_radians.to_degrees();
                 for row in &text.galley.rows {
                     let line = row.glyphs.iter().map(|x| x.chr).collect::<String>();
-
-                    attrs.insert("x", (text.pos.x + row.rect().min.x).to_string());
-                    attrs.insert("y", (text.pos.y + row.rect().max.y - 3.0).to_string());
+                    let base_correction = Vec2::angled(angle_radians + std::f32::consts::FRAC_PI_2);
+                    let height_and_three_correction = base_correction * (row.rect().size().y - 3.0);
+                    let x = text.pos.x + row.rect().left() + height_and_three_correction.x;
+                    let y = text.pos.y + row.rect().top() + height_and_three_correction.y;
+                    attrs.insert(
+                        "transform",
+                        format!("translate({x}, {y}) rotate({angle_degrees})"),
+                    );
                     attrs.insert("font-size", first_section.format.font_id.size.to_string());
                     attrs.insert(
                         "font-family",

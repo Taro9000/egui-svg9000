@@ -14,7 +14,7 @@ egui-svg-fonts = { path = "egui-svg-fonts" }
 app-native = { path = "app-native" }
 
 egui = { version = "0.36", default-features = false }
-eframe = { version = "0.36.1", default-features = false, features = ["glow"] }
+eframe = { version = "0.36.1", default-features = false, features = ["glow", "default_fonts"] }
 egui_demo_lib = { version = "0.36.1", default-features = false }
 
 [workspace.lints]
